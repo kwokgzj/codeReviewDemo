@@ -32,7 +32,7 @@ CameraDataShow::~CameraDataShow()
 
     if (m_buffer) {
         delete[] m_buffer;
-        delete[] m_buffer;
+        // delete[] m_buffer;
     }
 }
 
@@ -76,11 +76,11 @@ void CameraDataShow::showCalibrationLine(bool isShowed)
 
 void CameraDataShow::slotDisplayFrame(const QPixmap &pixmap)
 {
-    m_dataMutex->lock();
     if(!m_isShowData)
     {
         return;
     }
+    m_dataMutex->lock();
 
     getCameraRotateAngle();
     //根据相机画面的旋转角度判断是否需要旋转画面；
@@ -141,6 +141,7 @@ void CameraDataShow::slotDisplayFrame(const QPixmap &pixmap)
         calculateROIRect(centerPos+m_relativePos, std::min(m_lastPixmap.width(), m_lastPixmap.height())/ ROI_RADIUS_FACTOR);
         setROIRectToCamera();
     }
+    m_dataMutex->unLock();
 }
 
 

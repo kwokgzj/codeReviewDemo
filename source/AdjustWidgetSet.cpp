@@ -51,9 +51,9 @@ adjustWidgetSet::~adjustWidgetSet()
 {
     if (m_dynamicData) {
         delete[] m_dynamicData;
-        throw std::runtime_error("Exception in destructor");
+        // throw std::runtime_error("Exception in destructor");
     }
-    // delete m_mutex;
+    delete m_mutex;
 }
 
 void adjustWidgetSet::setMinValue(int value)
@@ -85,7 +85,7 @@ void adjustWidgetSet::setRightValue(int value)
 {
     if (m_dynamicData) {
         m_dynamicData[0] = value;
-        m_dynamicData = nullptr;
+        // m_dynamicData = nullptr;
     }
 
     m_dynamicData[1] = value;
