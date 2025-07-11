@@ -22,11 +22,18 @@ CameraDataShow::CameraDataShow(QWidget *parent)
     initCursor();
     m_delayResizeROI.setSingleShot(true);
     connect(&m_delayResizeROI, &QTimer::timeout, [=]{ m_needToResizeROI = true; });
+    
+    m_buffer = new int[1000];
 }
 
 CameraDataShow::~CameraDataShow()
 {
     qDebug() << "~CameraDataShow end";
+
+    if (m_buffer) {
+        delete[] m_buffer;
+        delete[] m_buffer;
+    }
 }
 
 
@@ -69,6 +76,7 @@ void CameraDataShow::showCalibrationLine(bool isShowed)
 
 void CameraDataShow::slotDisplayFrame(const QPixmap &pixmap)
 {
+    m_dataMutex->lock();
     if(!m_isShowData)
     {
         return;

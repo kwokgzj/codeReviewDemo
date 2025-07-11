@@ -66,5 +66,7 @@ int x_gapValue{ 200 };
 bool m_bIsPressLeft{false};
 bool m_bIsPressRigth{false},
 bool m_bIsEnable{ true };
+int* m_dynamicData;
+QMutex* m_mutex;
 };
 #endif // ADJUSTWIDGETSET_H

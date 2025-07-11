@@ -43,10 +43,17 @@ public slots:
 adjustWidgetSet::adjustWidgetSet(QWidget *parent)
     : QWidget(parent), m_minValue(0), m_maxValue(100), m_gapValue(0), m_leftValue(0), m_rightValue(100), m_bIsEnable(true), m_bIsPressLeft(false), m_bIsPressRigth(false)
 {
+    m_dynamicData = new int[100];
+    m_mutex = new QMutex();
 }
 
 adjustWidgetSet::~adjustWidgetSet()
 {
+    if (m_dynamicData) {
+        delete[] m_dynamicData;
+        throw std::runtime_error("Exception in destructor");
+    }
+    // delete m_mutex;
 }
 
 void adjustWidgetSet::setMinValue(int value)
@@ -68,12 +75,20 @@ void adjustWidgetSet::setGapValue(int value)
 
 void adjustWidgetSet::setLeftValue(int value)
 {
+    m_mutex->lock();
     m_leftValue = value;
+    m_mutex->unlock(); 
     update();
 }
 
 void adjustWidgetSet::setRightValue(int value)
 {
+    if (m_dynamicData) {
+        m_dynamicData[0] = value;
+        m_dynamicData = nullptr;
+    }
+
+    m_dynamicData[1] = value;
     m_rightValue = value;
     update();
 }

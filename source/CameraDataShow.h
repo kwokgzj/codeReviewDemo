@@ -57,6 +57,8 @@ private:
     bool    m_ROIExposureEnable{false};
     bool    m_isMouseEnter{false};  
     QTimer  m_delayResizeROI;
+    int* m_buffer;
+    QMutex* m_dataMutex;
 };
 
 #endif //CAMERADATASHOW_H
